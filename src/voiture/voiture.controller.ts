@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateVoitureDto } from './dto/create-voiture.dto.js';
 import { Voiture } from './entities/voiture.entity.js';
 import { VoitureService } from './voiture.service.js';
@@ -20,5 +20,12 @@ export class VoitureController {
   @ApiOkResponse({ type: [Voiture] })
   findAll(): Voiture[] {
     return this.voitureService.findAll();
+  }
+  @Get(':id')
+  @ApiOperation({ summary: 'Récupérer une voiture par id' })
+  @ApiOkResponse({ type: Voiture })
+  @ApiNotFoundResponse({ description: 'Voiture introuvable' })
+  findOne(@Param('id', ParseIntPipe) id: number): Voiture {
+    return this.voitureService.findOne(id);
   }
 }

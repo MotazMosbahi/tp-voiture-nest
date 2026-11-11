@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateVoitureDto } from './dto/create-voiture.dto.js';
 import { Voiture } from './entities/voiture.entity.js';
 
@@ -14,5 +14,12 @@ export class VoitureService {
   }
     findAll(): Voiture[] {
     return this.voitures;
+  }
+  findOne(id: number): Voiture {
+    const voiture = this.voitures.find((v) => v.id === id);
+    if (!voiture) {
+      throw new NotFoundException(`Voiture ${id} introuvable`);
+    }
+    return voiture;
   }
 }
