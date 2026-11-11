@@ -12,4 +12,7 @@ export class VoitureService {
     this.voitures.push(voiture);
     return voiture;
   }
+    findAll(): Voiture[] {
+    return this.voitures;
+  }
 }

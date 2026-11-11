@@ -1,5 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateVoitureDto } from './dto/create-voiture.dto.js';
 import { Voiture } from './entities/voiture.entity.js';
 import { VoitureService } from './voiture.service.js';
@@ -14,5 +14,11 @@ export class VoitureController {
   @ApiCreatedResponse({ type: Voiture })
   create(@Body() dto: CreateVoitureDto): Voiture {
     return this.voitureService.create(dto);
+  }
+  @Get()
+  @ApiOperation({ summary: 'Lister toutes les voitures' })
+  @ApiOkResponse({ type: [Voiture] })
+  findAll(): Voiture[] {
+    return this.voitureService.findAll();
   }
 }
